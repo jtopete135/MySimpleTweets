@@ -65,6 +65,19 @@ public class TimelineActivity extends AppCompatActivity {
         startActivityForResult(i,result); // brings up the second activity
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        // check request code and result code first
+        if(resultCode == RESULT_OK){
+            // Use data parameter
+            Tweet tweet = (Tweet) data.getSerializableExtra("tweet");
+            tweets.add(0, tweet);
+            tweetAdapter.notifyItemInserted(0);
+            rvTweets.scrollToPosition(0);
+        }
+    }
+
     private void populateTimeline(){
         client.getHomeTimeline(new JsonHttpResponseHandler(){
             @Override

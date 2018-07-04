@@ -10,11 +10,18 @@ import android.widget.EditText;
 
 import com.codepath.apps.restclienttemplate.models.Tweet;
 import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.JsonHttpResponseHandler;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.parceler.Parcels;
 
 import cz.msebera.android.httpclient.Header;
 
 public class ComposeActivity extends AppCompatActivity {
     TwitterClient client;
+    Tweet tweet;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,15 +34,26 @@ public class ComposeActivity extends AppCompatActivity {
             public void onClick(View v) {
                 EditText simpleEditText = (EditText) findViewById(R.id.et_simple);
                 String strValue = simpleEditText.getText().toString();
-                client.sendTweet(strValue, new AsyncHttpResponseHandler() {
+                client.sendTweet(strValue, new JsonHttpResponseHandler(){
                     @Override
-                    public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                    public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                        try {
+                            tweet = Tweet.fromJSON(response);
+                            //pass twee back using intents
+                            Intent newTweet = new Intent();
+                            //pass data back to Timeline Activity
+                            newTweet.putExtra("tweet", Parcels.wrap(tweet));
+                            setResult(RESULT_OK,newTweet); // set result code and bundle data for response
+                            finish();
 
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
                     }
 
                     @Override
-                    public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-
+                    public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray errorResponse) {
+                        super.onFailure(statusCode, headers, throwable, errorResponse);
                     }
                 });
             }
