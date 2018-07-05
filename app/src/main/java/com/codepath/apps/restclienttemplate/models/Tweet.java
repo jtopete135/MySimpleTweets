@@ -19,9 +19,10 @@ public class Tweet {
     public User user;
     public String createdAt;
 
-    //deserialize the data
     public Tweet(){}
 
+
+    //deserialize the data
     public static Tweet fromJSON(JSONObject jsonObject) throws JSONException {
         Tweet tweet  = new Tweet();
 
