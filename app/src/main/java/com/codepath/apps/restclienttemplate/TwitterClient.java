@@ -40,6 +40,7 @@ public class TwitterClient extends OAuthBaseClient {
 				REST_CONSUMER_SECRET,
 				String.format(REST_CALLBACK_URL_TEMPLATE, context.getString(R.string.intent_host),
 						context.getString(R.string.intent_scheme), context.getPackageName(), FALLBACK_URL));
+
 	}
 	// CHANGE THIS
 	// DEFINE METHODS for different API endpoints here
@@ -58,6 +59,32 @@ public class TwitterClient extends OAuthBaseClient {
 		RequestParams params = new RequestParams();
 		params.put("status", message);
 		client.post(apiUrl, params, handler);
+	}
+
+	public void favorite(boolean newValue, long tweetId, AsyncHttpResponseHandler handler ){
+		String endpoint = newValue ? "create" : "destroy";
+		String favUrl = getApiUrl("favorites/" + endpoint + ".json");
+		RequestParams params = new RequestParams();
+		params.put("id", tweetId);
+		client.post(favUrl, params, handler);
+
+	}
+
+	public void retweet(boolean newValue, long statusId,AsyncHttpResponseHandler handler){
+		String endpointUrl = "statuses/";
+
+		if(newValue) {
+			endpointUrl += "retweet/";
+		} else {
+			endpointUrl += "unretweet/";
+		}
+
+		endpointUrl += Long.toString(statusId) + ".json";
+
+		String retweetUrl = getApiUrl(endpointUrl);
+		RequestParams params = new RequestParams();
+		params.put("id", statusId);
+		client.post(retweetUrl, params, handler);
 	}
 
 

@@ -15,19 +15,20 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.codepath.apps.restclienttemplate.models.Tweet;
 
+import org.parceler.Parcel;
 import org.parceler.Parcels;
 
 import java.util.List;
 
+
 public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> {
 
     Context context;
-     List<Tweet> mTweets;
+    List<Tweet> mTweets;
     //pas in the tweets array in the constructor
     public TweetAdapter(List<Tweet> tweets){
         mTweets = tweets;
     }
-
 
 
     //for each row inflate the layout and cache reference into the view holder

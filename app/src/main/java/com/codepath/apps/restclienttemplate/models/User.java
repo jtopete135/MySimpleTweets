@@ -13,6 +13,9 @@ public class User {
     public String screenName;
     public String profileImageUrl;
 
+
+
+
     public User(){}
 
     //deserialize the JSON
@@ -24,6 +27,7 @@ public class User {
         user.uid = json.getLong("id");
         user.screenName = json.getString("screen_name");
         user.profileImageUrl = json.getString("profile_image_url");
+
 
         return user;
     }

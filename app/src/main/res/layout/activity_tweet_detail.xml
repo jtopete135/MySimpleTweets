@@ -47,6 +47,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/tvBody"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="5dp"
         android:text="TextView"
         android:textColor="@color/medium_gray" />
 
@@ -55,19 +57,29 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/tvRelativeTime"
+        android:layout_below="@+id/tvFavRetweetCount"
         android:layout_marginTop="5dp"
         android:background="@android:color/transparent"
-        app:srcCompat="@drawable/ic_action_favorite" />
+        app:srcCompat="@drawable/fav_button_states" />
 
     <ImageButton
         android:id="@+id/ibRetweet"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/tvRelativeTime"
-        android:layout_marginTop="5dp"
+        android:layout_alignTop="@+id/ibFavorite"
+        android:layout_marginLeft="5dp"
         android:layout_toEndOf="@+id/ibFavorite"
         android:background="@android:color/transparent"
-        app:srcCompat="@drawable/ic_action_retweet" />
+        app:srcCompat="@drawable/retweet_button_states" />
+
+    <TextView
+        android:id="@+id/tvFavRetweetCount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/tvRelativeTime"
+        android:layout_marginTop="5dp"
+        android:text="TextView"
+        android:textColor="@android:color/background_light" />
 
 </RelativeLayout>
