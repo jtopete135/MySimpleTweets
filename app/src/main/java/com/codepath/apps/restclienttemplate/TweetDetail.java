@@ -40,7 +40,7 @@ public class TweetDetail extends AppCompatActivity {
         tvRelativeTime = (TextView) findViewById(R.id.tvRelativeTime);
         tvFavRetweetCount = (TextView) findViewById(R.id.tvFavRetweetCount);
 
-        tvUserName.setText(tweet.user.name);
+        tvUserName.setText(tweet.user.name + " @" + tweet.user.screenName);
         tvBody.setText(tweet.body);
         tvRelativeTime.setText(tweet.getRelativeTimeAgo(tweet.createdAt));
         tvFavRetweetCount.setText(String.format("%d Likes %d Retweets",tweet.favoriteCount,tweet.retweetCount));
@@ -122,8 +122,9 @@ public class TweetDetail extends AppCompatActivity {
                         @Override
                         public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                             tweet.retweetCount--;
-                            tweet.favorited = false;
                             tvFavRetweetCount.setText(String.format("%d Likes %d Retweets", tweet.favoriteCount, tweet.retweetCount));
+                            tweet.favorited = false;
+
                         }
 
                         @Override
