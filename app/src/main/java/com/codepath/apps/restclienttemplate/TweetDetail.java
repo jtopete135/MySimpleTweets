@@ -56,18 +56,41 @@ public class TweetDetail extends AppCompatActivity {
             public void onClick(View v) {
                 ibFavorite.setSelected(!ibFavorite.isSelected());
 
-                client.favorite(true, tweet.uid, new JsonHttpResponseHandler(){
-                    @Override
-                    public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                        tweet.favoriteCount++;
-                        tvFavRetweetCount.setText(String.format("%d Likes %d Retweets",tweet.favoriteCount,tweet.retweetCount));
-                    }
+                if (!tweet.favorited) {
+                    client.favorite(true, tweet.uid, new JsonHttpResponseHandler() {
+                        @Override
+                        public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
 
-                    @Override
-                    public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                        super.onFailure(statusCode, headers, throwable, errorResponse);
-                    }
-                });
+                            tweet.favoriteCount++;
+                            tweet.favorited = true;
+                            tvFavRetweetCount.setText(String.format("%d Likes %d Retweets", tweet.favoriteCount, tweet.retweetCount));
+
+                        }
+
+                        @Override
+                        public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                            super.onFailure(statusCode, headers, throwable, errorResponse);
+                        }
+                    });
+                }
+                else {
+
+                    client.favorite(false, tweet.uid, new JsonHttpResponseHandler() {
+                        @Override
+                        public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                            tweet.favoriteCount--;
+                            tweet.favorited = false;
+                            tvFavRetweetCount.setText(String.format("%d Likes %d Retweets", tweet.favoriteCount, tweet.retweetCount));
+
+                        }
+
+                        @Override
+                        public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                            super.onFailure(statusCode, headers, throwable, errorResponse);
+                        }
+                    });
+                }
+
             }
         });
 
@@ -78,18 +101,37 @@ public class TweetDetail extends AppCompatActivity {
             public void onClick(View v) {
                 ibRetweet.setSelected(!ibRetweet.isSelected());
 
-                client.retweet(true, tweet.uid, new JsonHttpResponseHandler(){
-                    @Override
-                    public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                        tweet.retweetCount++;
-                        tvFavRetweetCount.setText(String.format("%d Likes %d Retweets",tweet.favoriteCount,tweet.retweetCount));
-                    }
+                if(!tweet.retweeted) {
 
-                    @Override
-                    public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                        super.onFailure(statusCode, headers, throwable, errorResponse);
-                    }
-                });
+                    client.retweet(true, tweet.uid, new JsonHttpResponseHandler() {
+                        @Override
+                        public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                            tweet.retweetCount++;
+                            tweet.favorited = true;
+                            tvFavRetweetCount.setText(String.format("%d Likes %d Retweets", tweet.favoriteCount, tweet.retweetCount));
+                        }
+
+                        @Override
+                        public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                            super.onFailure(statusCode, headers, throwable, errorResponse);
+                        }
+                    });
+                }
+                else{
+                    client.retweet(false, tweet.uid, new JsonHttpResponseHandler() {
+                        @Override
+                        public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                            tweet.retweetCount--;
+                            tweet.favorited = false;
+                            tvFavRetweetCount.setText(String.format("%d Likes %d Retweets", tweet.favoriteCount, tweet.retweetCount));
+                        }
+
+                        @Override
+                        public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                            super.onFailure(statusCode, headers, throwable, errorResponse);
+                        }
+                    });
+                }
             }
         });
     }
